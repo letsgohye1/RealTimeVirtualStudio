@@ -27,10 +27,16 @@ public:
 
 public:
 	// ?? 꽃 Instanced Static Mesh
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flower")
 	TArray<UInstancedStaticMeshComponent*> FlowerISMs;
 
+	// ?? 구슬(StaticMeshComponent) 저장
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flower")
+	TArray<UStaticMeshComponent*> LightOrbs;
 
+	// ?? 구슬용 메쉬 (블루프린트에서 지정)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flower")	
+	UStaticMesh* LightOrbMesh;
 
 	// 생성 개수
 	UPROPERTY(EditAnywhere, Category = "Spawn")
@@ -43,5 +49,9 @@ public:
 	// 꽃 피우기
 	UFUNCTION(BlueprintCallable)
 	void SpawnRandomFlowers();
+
+	// 라이트 피우기
+	UFUNCTION(BlueprintCallable)
+	void SpawnRandomLights();
 
 };

@@ -2,6 +2,11 @@
 
 
 #include "Flower.h"
+#include "Net/UnrealNetwork.h"
+#include "GameFramework/GameStateBase.h"
+#include "Components/SceneComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 AFlower::AFlower()
@@ -9,6 +14,7 @@ AFlower::AFlower()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+
 
 	// ISM 10개 예시
 	for (int32 i = 0; i < 10; ++i)
@@ -33,7 +39,7 @@ void AFlower::BeginPlay()
 {
 	Super::BeginPlay();
 	SpawnRandomFlowers();
-	
+	SpawnRandomLights();
 }
 
 // Called every frame
@@ -92,6 +98,40 @@ void AFlower::SpawnRandomFlowers()
 			// ? 여기서 실제로 꽃 추가
 			ISM->AddInstance(Transform);
 		}
+	}
+}
+
+void AFlower::SpawnRandomLights()
+{
+	if (!LightOrbMesh) return; // 블루프린트에서 할당
+
+	const int32 OrbCount = 2;
+
+	for (int32 i = 0; i < OrbCount; ++i)
+	{
+		// 새 구슬 컴포넌트 생성
+		UStaticMeshComponent* Orb = NewObject<UStaticMeshComponent>(this);
+		Orb->RegisterComponent();
+		Orb->SetStaticMesh(LightOrbMesh);
+
+		// 랜덤 위치
+		FVector Location(
+			FMath::RandRange(-40.f, 40.f),
+			FMath::RandRange(-40.f, 40.f),
+			FMath::RandRange(20.f, 60.f)
+		);
+
+		Orb->SetWorldLocation(GetActorLocation() + Location);
+		Orb->SetWorldRotation(FRotator::ZeroRotator);
+		Orb->SetWorldScale3D(FVector(0.5f));
+
+		Orb->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		// Root에 붙이기
+		Orb->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+
+		// 배열에 담기 (필요하면)
+		LightOrbs.Add(Orb);
 	}
 }
 
