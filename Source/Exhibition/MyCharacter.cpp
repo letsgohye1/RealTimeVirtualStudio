@@ -69,7 +69,5 @@ void AMyCharacter::Look(float Pitch, float Yaw)
 {
 	AddControllerPitchInput(Pitch);
 	AddControllerYawInput(Yaw);
-
-	UE_LOG(LogTemp, Warning, TEXT("Look called | Pitch=%f | Yaw=%f"), Pitch, Yaw);
 }
 
