@@ -8,8 +8,9 @@ public class ExhibitionTarget : TargetRules
 	public ExhibitionTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
-		DefaultBuildSettings = BuildSettingsVersion.V6;
+        DefaultBuildSettings = BuildSettingsVersion.Latest;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
 
-		ExtraModuleNames.AddRange( new string[] { "Exhibition" } );
+        ExtraModuleNames.AddRange( new string[] { "Exhibition" } );
 	}
 }
